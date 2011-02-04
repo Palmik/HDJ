@@ -1,0 +1,2 @@
+ds(x) = if x then modulo(x, 10)*ds(x/10) else 1 fi
+modulo(x, y) = x - ((x / y) * y)
