@@ -29,7 +29,7 @@ parameters = between (symbol "(") (symbol ")") ((spaces >> identifier) `sepBy` (
 
 expression = operatorCall ((try conditionCall) <|> (parens expression) <|> (numberValue) <|> (try functionCall) <|> (variable)) <?> "expression"
 functionCall = liftM2 (FCall) (identifier) (between (symbol "(") (symbol ")") (expression `sepBy` (symbol ","))) <?> "function call"
-conditionCall = liftM3 (exprCon) ((symbol "if") >> expression) ((symbol "then") >> expression) ((symbol "else") >> expression) <?> "conditionCall"
+conditionCall = liftM3 (exprCon) ((symbol "if") >> expression) ((symbol "then") >> expression) ((symbol "else") >> expression >>= (\x -> (symbol "fi") >> (return x))) <?> "conditionCall"
 
 parseFunctionDefinitions = parse functionDefinitions "(Function Definitions)"
 right x = case x of
